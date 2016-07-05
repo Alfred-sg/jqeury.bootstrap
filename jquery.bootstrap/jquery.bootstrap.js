@@ -173,6 +173,25 @@ DialogRender.prototype.place=function(){
 	var that=this;
 
 	that.options.width && that.$dialog.find(".modal-content").width(that.options.width);
+
+	$("div").each(function(index,item){
+		if ( $(item).css("zIndex")!="auto" && $(item).css("zIndex")>zIndex ) zIndex=$(item).css("zIndex")-0;
+	});
+
+	if ( zIndex>=1050 ){
+		zIndex+=10;
+		that.$dialog.css("zIndex",zIndex+10);
+		if ( that.options.backdrop && $(".modal-backdrop.fade").length ){
+			that.backdropIndex=$(".modal-backdrop.fade").css("zIndex");
+			$(".modal-backdrop.fade").css("zIndex",zIndex);
+		};
+
+		that.$dialog.on("hide.bs.modal",function(){
+			$(".modal-backdrop.fade").css("zIndex",that.backdropIndex);
+		});
+	};
+
+	// 修改bootstrap.css实现居中和平滑过渡
 	that.options.height && that.$dialog.find(".modal-content").height(that.options.height);
 
 	that.$dialog.find(".modal-dialog").css({
@@ -496,11 +515,11 @@ NotifyRender.prototype.bindEvent=function(){
 	var that=this;
 
 	this.$dialog.find("span.close").off("click").on("click",function(){
-		that.$dialog.dialog("close");
+		that.$dialog.dialog("destroy");
 	});
 
 	this.$dialog.off("hidden.dialog").on("hidden.dialog",function(){
-		delete that;
+		that.$dialog.dialog("destroy");
 	});
 };
 
