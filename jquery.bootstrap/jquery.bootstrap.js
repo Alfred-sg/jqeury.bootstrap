@@ -170,7 +170,8 @@ DialogRender.prototype.initButtons=function(){
 };
 
 DialogRender.prototype.place=function(){
-	var that=this;
+	var that=this,
+		zIndex=10;
 
 	that.options.width && that.$dialog.find(".modal-content").width(that.options.width);
 
@@ -505,10 +506,10 @@ NotifyRender.prototype.init=function(){
 
 	this.$dialog.dialog("open");
 
-	/*setTimeout(function(){
+	setTimeout(function(){
 		that.$dialog.dialog("close");
 		that.options.callback && that.options.callback();
-	},that.options.delay);*/
+	},that.options.delay);
 };
 
 NotifyRender.prototype.bindEvent=function(){
